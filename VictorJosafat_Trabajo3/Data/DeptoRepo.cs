@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using VictorJosafat_Trabajo3.Models;
 
 namespace VictorJosafat_Trabajo3.Data
@@ -14,7 +15,42 @@ namespace VictorJosafat_Trabajo3.Data
             _dbHelper = new DatabaseHelper();
         }
 
-        // 1. Agregar Departamento
+        // 1. Este método agrega un nuevo empleado a la base de datos, asociándolo con un departamento específico
+        public void AgregarEmpleado(Empleado emp, Departamento dept)
+        {
+            using var conn = _dbHelper.ObtenerConexion();
+            conn.Open();
+            string query = "INSERT INTO Empleado (rut, nombre, apellido, sueldo, codigo_depto) VALUES (@rut, @nombre, @apellido, @sueldo, @codigo_depto)";
+            MySqlCommand cmd = new(query, conn);
+            cmd.Parameters.AddWithValue("@rut", emp.Rut);
+            cmd.Parameters.AddWithValue("@nombre", emp.Nombre);
+            cmd.Parameters.AddWithValue("@apellido", emp.Apellido);
+            cmd.Parameters.AddWithValue("@sueldo", emp.Sueldo);
+            cmd.Parameters.AddWithValue("@codigo_depto", dept.Codigo);
+            cmd.Parameters.AddWithValue("@nombre_depto", dept.NombreDepto);
+            cmd.ExecuteNonQuery();
+        }
+
+        // 2. Este método obtiene una lista de empleados junto con su departamento asociado
+        public DataTable ObtenerListaEmpDept()
+        {
+            using var conn = _dbHelper.ObtenerConexion();
+            conn.Open();
+            string query = @"SELECT E.rut AS 'RUT', 
+                                    E.nombre AS 'Nombre', 
+                                    E.apellido AS 'Apellido', 
+                                    E.sueldo AS 'Sueldo', 
+                                    D.codigo AS 'Código Depto',
+                                    D.nombre_depto AS 'Departamento'
+                             FROM Empleado E
+                             INNER JOIN Departamento D ON E.codigo_depto = D.codigo";
+            MySqlDataAdapter adapter = new(query, conn);
+            DataTable dt = new();
+            adapter.Fill(dt);
+            return dt;
+        }
+
+        // 3. Agregar Departamento
         public void AgregarDepartamento(Departamento d)
         {
             using var conn = _dbHelper.ObtenerConexion();
@@ -29,7 +65,7 @@ namespace VictorJosafat_Trabajo3.Data
             cmd.ExecuteNonQuery();
         }
 
-        // 2. Listar Departamentos
+        // 4. Listar Departamentos
         public List<Departamento> ListarDepartamentos()
         {
             List<Departamento> lista = new();
@@ -54,7 +90,7 @@ namespace VictorJosafat_Trabajo3.Data
             return lista;
         }
 
-        // 3. Buscar por Código
+        // 5. Buscar por Código
         public Departamento BuscarPorCodigo(int codigo)
         {
             using var conn = _dbHelper.ObtenerConexion();
@@ -79,7 +115,7 @@ namespace VictorJosafat_Trabajo3.Data
             return null;
         }
 
-        // 4. Modificar Departamento
+        // 6. Modificar Departamento
         public void ModificarDepartamento(Departamento d)
         {
             using var conn = _dbHelper.ObtenerConexion();

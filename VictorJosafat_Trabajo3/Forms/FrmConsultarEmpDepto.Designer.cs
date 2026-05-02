@@ -44,92 +44,103 @@
             // lblRut
             // 
             lblRut.AutoSize = true;
-            lblRut.Location = new Point(35, 92);
+            lblRut.Location = new Point(31, 69);
             lblRut.Name = "lblRut";
-            lblRut.Size = new Size(176, 20);
+            lblRut.Size = new Size(138, 15);
             lblRut.TabIndex = 0;
             lblRut.Text = "Ingrese Rut de Empleado";
             // 
             // lblNombre
             // 
             lblNombre.AutoSize = true;
-            lblNombre.Location = new Point(119, 142);
+            lblNombre.Location = new Point(104, 106);
             lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(64, 20);
+            lblNombre.Size = new Size(51, 15);
             lblNombre.TabIndex = 1;
             lblNombre.Text = "Nombre";
             // 
             // lblApellido
             // 
             lblApellido.AutoSize = true;
-            lblApellido.Location = new Point(119, 189);
+            lblApellido.Location = new Point(104, 142);
             lblApellido.Name = "lblApellido";
-            lblApellido.Size = new Size(66, 20);
+            lblApellido.Size = new Size(51, 15);
             lblApellido.TabIndex = 2;
             lblApellido.Text = "Apellido";
             // 
             // lblSueldo
             // 
             lblSueldo.AutoSize = true;
-            lblSueldo.Location = new Point(119, 236);
+            lblSueldo.Location = new Point(104, 177);
             lblSueldo.Name = "lblSueldo";
-            lblSueldo.Size = new Size(55, 20);
+            lblSueldo.Size = new Size(43, 15);
             lblSueldo.TabIndex = 3;
             lblSueldo.Text = "Sueldo";
             // 
             // lblDepto
             // 
             lblDepto.AutoSize = true;
-            lblDepto.Location = new Point(119, 276);
+            lblDepto.Location = new Point(104, 207);
             lblDepto.Name = "lblDepto";
-            lblDepto.Size = new Size(106, 20);
+            lblDepto.Size = new Size(83, 15);
             lblDepto.TabIndex = 4;
             lblDepto.Text = "Departamento";
             // 
             // txtRut
             // 
-            txtRut.Location = new Point(261, 92);
+            txtRut.Location = new Point(228, 69);
+            txtRut.Margin = new Padding(3, 2, 3, 2);
             txtRut.Name = "txtRut";
-            txtRut.Size = new Size(210, 27);
+            txtRut.PlaceholderText = "11.222.333-K";
+            txtRut.Size = new Size(184, 23);
             txtRut.TabIndex = 5;
+            txtRut.TextChanged += TxtRut_TextChanged;
+            txtRut.Enter += TxtRut_Enter_1;
+            txtRut.KeyPress += TxtRut_KeyPress;
+            txtRut.Leave += TxtRut_Leave;
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(261, 142);
+            txtNombre.Location = new Point(228, 106);
+            txtNombre.Margin = new Padding(3, 2, 3, 2);
             txtNombre.Name = "txtNombre";
             txtNombre.ReadOnly = true;
-            txtNombre.Size = new Size(210, 27);
+            txtNombre.Size = new Size(184, 23);
             txtNombre.TabIndex = 6;
             // 
             // txtApellido
             // 
-            txtApellido.Location = new Point(261, 186);
+            txtApellido.Location = new Point(228, 140);
+            txtApellido.Margin = new Padding(3, 2, 3, 2);
             txtApellido.Name = "txtApellido";
             txtApellido.ReadOnly = true;
-            txtApellido.Size = new Size(210, 27);
+            txtApellido.Size = new Size(184, 23);
             txtApellido.TabIndex = 7;
             // 
             // txtSueldo
             // 
-            txtSueldo.Location = new Point(261, 236);
+            txtSueldo.Location = new Point(228, 177);
+            txtSueldo.Margin = new Padding(3, 2, 3, 2);
             txtSueldo.Name = "txtSueldo";
             txtSueldo.ReadOnly = true;
-            txtSueldo.Size = new Size(210, 27);
+            txtSueldo.Size = new Size(184, 23);
             txtSueldo.TabIndex = 8;
             // 
             // txtDepto
             // 
-            txtDepto.Location = new Point(261, 276);
+            txtDepto.Location = new Point(228, 207);
+            txtDepto.Margin = new Padding(3, 2, 3, 2);
             txtDepto.Name = "txtDepto";
             txtDepto.ReadOnly = true;
-            txtDepto.Size = new Size(210, 27);
+            txtDepto.Size = new Size(184, 23);
             txtDepto.TabIndex = 9;
             // 
             // btnBuscar
             // 
-            btnBuscar.Location = new Point(302, 347);
+            btnBuscar.Location = new Point(264, 260);
+            btnBuscar.Margin = new Padding(3, 2, 3, 2);
             btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(94, 29);
+            btnBuscar.Size = new Size(82, 22);
             btnBuscar.TabIndex = 10;
             btnBuscar.Text = "Buscar";
             btnBuscar.UseVisualStyleBackColor = true;
@@ -137,9 +148,9 @@
             // 
             // FrmConsultarEmpDepto
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(700, 338);
             Controls.Add(btnBuscar);
             Controls.Add(txtDepto);
             Controls.Add(txtSueldo);
@@ -151,6 +162,7 @@
             Controls.Add(lblApellido);
             Controls.Add(lblNombre);
             Controls.Add(lblRut);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "FrmConsultarEmpDepto";
             Text = "FrmConsultarEmpDepto";
             ResumeLayout(false);

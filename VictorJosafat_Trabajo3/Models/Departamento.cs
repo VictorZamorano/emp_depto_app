@@ -8,5 +8,7 @@ namespace VictorJosafat_Trabajo3.Models
     {
         public int Codigo { get; set; }
         public string NombreDepto { get; set; }
+
+        public string DisplayCombo => $"{Codigo} - {NombreDepto}";
     }
 }
