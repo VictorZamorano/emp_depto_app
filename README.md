@@ -15,7 +15,12 @@ Fue utilizado XAMPP para la gestión de la base de datos MySQL, lo que permitió
 - Forms: Contiene los formularios de la aplicación, incluyendo el formulario principal y los formularios para agregar/editar empleados y departamentos.
 - Models: Contiene las clases que representan las entidades de la aplicación, como Empleado y Departamento.
 
-### Creación de la Base de Datos
+## Ejecutar la Aplicación
+Para ejecutar la aplicación, sigue estos pasos:
+1. Asegúrate de tener instalado XAMPP y MySQL.
+2. Crea la base de datos y las tablas utilizando el script SQL proporcionado o ejecuta el archivo SQL incluido en el proyecto (dept_emp_db.sql).
+
+## Creación de la Base de Datos
 Para crear la base de datos, se puede utilizar el siguiente script SQL:
 ```
 CREATE TABLE Departamento (
@@ -31,24 +36,4 @@ CREATE TABLE Empleado (
     codigo_depto INT,
     FOREIGN KEY (codigo_depto) REFERENCES Departamento(codigo)
 );
-```
-
-Probar conexión a la base de datos:
-```
-public bool ProbarConexion()
-{
-    using (var connection = ObtenerConexion())
-    {
-        try
-        {
-            connection.Open();
-            return true;
-        }
-        catch (MySqlException ex)
-        {
-            // Aquí podrías usar Console.WriteLine(ex.Message) para depurar
-            return false;
-        }
-    }
-}
 ```
