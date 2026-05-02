@@ -6,6 +6,8 @@
 -- Generation Time: May 02, 2026 at 10:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
+CREATE DATABASE IF NOT EXISTS dept_emp_db;
+USE dept_emp_db;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
