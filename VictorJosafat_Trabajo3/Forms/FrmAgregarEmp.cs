@@ -37,8 +37,16 @@ namespace VictorJosafat_Trabajo3.Forms
             // Limpia el RUT de puntos, guiones y lo conveierte a mayúscula para su almacenamiento
             string rutLimpio = txtRut.Text.Replace(".", "").Replace("-", "").ToUpper();
 
+
             if (cmbDepto.SelectedValue is int codigoSeleccionado)
             {
+
+                if (!decimal.TryParse(txtSueldo.Text, out decimal sueldoValidado))
+                {
+                    MessageBox.Show("Por favor, ingrese un sueldo válido (solo números).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 Empleado nuevoEmp = new Empleado
                 {
                     Rut = rutLimpio,
@@ -53,6 +61,7 @@ namespace VictorJosafat_Trabajo3.Forms
                 empRepo.AgregarEmpleado(nuevoEmp, deptoSeleccionado);
 
                 MessageBox.Show("Empleado agregado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LimpiarFormulario();
             }
             else
             {
@@ -62,34 +71,13 @@ namespace VictorJosafat_Trabajo3.Forms
 
         }
 
-        private void TxtRut_TextChanged(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(txtRut.Text))
-            {
-                txtRut.Text = RutFormateador.FormatearRut(txtRut.Text);
-
-                if (txtRut.Text.Length < 10)
-                {
-                    txtRut.ForeColor = Color.Red; // Aviso visual de que falta algo
-                }
-                else
-                {
-                    txtRut.ForeColor = SystemColors.WindowText; // Color normal
-                }
-            }
-        }
-
         // Evento para validar el formato del RUT al salir del campo de texto
         private void TxtRut_Leave(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(txtRut.Text))
             {
-                string rutFormateado = RutFormateador.FormatearRut(txtRut.Text);
-                if (rutFormateado != txtRut.Text)
-                {
-                    MessageBox.Show("RUT no válido. Por favor, ingrese un RUT correcto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtRut.Focus();
-                }
+                // El formato (puntos y guion) solo se aplica al salir del campo
+                txtRut.Text = RutFormateador.FormatearRut(txtRut.Text);
             }
         }
 
@@ -106,6 +94,32 @@ namespace VictorJosafat_Trabajo3.Forms
         private void TxtRut_Enter(object sender, EventArgs e)
         {
             txtRut.Text = txtRut.Text.Replace(".", "").Replace("-", "");
+        }
+
+        private void TxtRut_TextChanged(object sender, EventArgs e)
+        {
+            // Limpiamos temporalmente para contar cuántos números reales hay
+            string soloNumeros = txtRut.Text.Replace(".", "").Replace("-", "");
+
+            // Si tiene menos de 8 o 9 caracteres (un RUT normal), se pone rojo
+            if (soloNumeros.Length < 8)
+            {
+                txtRut.ForeColor = Color.Red;
+            }
+            else
+            {
+                txtRut.ForeColor = SystemColors.WindowText; // Color negro normal
+            }
+        }
+
+        // Limpia los campos al agregar un empleado
+        private void LimpiarFormulario()
+        {
+            txtRut.Clear();
+            txtNombre.Clear();
+            txtApellido.Clear();
+            txtSueldo.Clear();
+            if (cmbDepto.Items.Count > 0) cmbDepto.SelectedIndex = 0;
         }
     }
 }

@@ -56,34 +56,12 @@ namespace VictorJosafat_Trabajo3.Forms
             }
         }
 
-        private void TxtRut_TextChanged(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(txtRut.Text))
-            {
-                txtRut.Text = RutFormateador.FormatearRut(txtRut.Text);
-
-                if (txtRut.Text.Length < 10)
-                {
-                    txtRut.ForeColor = Color.Red; // Aviso visual de que falta algo
-                }
-                else
-                {
-                    txtRut.ForeColor = SystemColors.WindowText; // Color normal
-                }
-            }
-        }
-
-        // Evento para validar el formato del RUT al salir del campo de texto
         private void TxtRut_Leave(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(txtRut.Text))
             {
-                string rutFormateado = RutFormateador.FormatearRut(txtRut.Text);
-                if (rutFormateado != txtRut.Text)
-                {
-                    MessageBox.Show("RUT no válido. Por favor, ingrese un RUT correcto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtRut.Focus();
-                }
+                // El formato (puntos y guion) solo se aplica al salir del campo
+                txtRut.Text = RutFormateador.FormatearRut(txtRut.Text);
             }
         }
 
@@ -94,6 +72,27 @@ namespace VictorJosafat_Trabajo3.Forms
                 e.KeyChar != 'k' && e.KeyChar != 'K')
             {
                 e.Handled = true;
+            }
+        }
+
+        private void TxtRut_Enter(object sender, EventArgs e)
+        {
+            txtRut.Text = txtRut.Text.Replace(".", "").Replace("-", "");
+        }
+
+        private void TxtRut_TextChanged(object sender, EventArgs e)
+        {
+            // Limpiamos temporalmente para contar cuántos números reales hay
+            string soloNumeros = txtRut.Text.Replace(".", "").Replace("-", "");
+
+            // Si tiene menos de 8 o 9 caracteres (un RUT normal), se pone rojo
+            if (soloNumeros.Length < 8)
+            {
+                txtRut.ForeColor = Color.Red;
+            }
+            else
+            {
+                txtRut.ForeColor = SystemColors.WindowText; // Color negro normal
             }
         }
 
