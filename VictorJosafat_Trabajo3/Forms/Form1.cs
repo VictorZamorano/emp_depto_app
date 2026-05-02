@@ -58,5 +58,29 @@ namespace VictorJosafat_Trabajo3
                 MessageBox.Show("Error al agregar datos de prueba: " + ex.Message);
             }
         }
+
+        private void agregarDepartamentoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmAgregarDepto ventana = new();
+            ventana.ShowDialog();
+        }
+
+        private void consultarPorEmpleadoYDepartamentoAsociadosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmConsultarEmpDepto ventana = new();
+            ventana.ShowDialog();
+        }
+
+        private void modificarEmpleadoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmModificarEmpleado ventana = new();
+            ventana.ShowDialog();
+        }
+
+        private void modificarDepartamentoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmModificarDepto ventana = new();
+            ventana.ShowDialog();
+        }
     }
 }

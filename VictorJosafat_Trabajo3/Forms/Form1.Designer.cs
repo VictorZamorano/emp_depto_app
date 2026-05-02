@@ -33,6 +33,8 @@
             agregarDepartamentoToolStripMenuItem = new ToolStripMenuItem();
             consultarPorEmpleadoYDepartamentoAsociadosToolStripMenuItem = new ToolStripMenuItem();
             modificacarEmpleadoODepartamentoToolStripMenuItem = new ToolStripMenuItem();
+            modificarEmpleadoToolStripMenuItem = new ToolStripMenuItem();
+            modificarDepartamentoToolStripMenuItem = new ToolStripMenuItem();
             listarEmpleadoODepartamentoToolStripMenuItem = new ToolStripMenuItem();
             testConnection = new Button();
             seedButton = new Button();
@@ -41,50 +43,70 @@
             // 
             // menuStrip1
             // 
+            menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { agregarEmpleadoToolStripMenuItem, agregarDepartamentoToolStripMenuItem, consultarPorEmpleadoYDepartamentoAsociadosToolStripMenuItem, modificacarEmpleadoODepartamentoToolStripMenuItem, listarEmpleadoODepartamentoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(966, 24);
+            menuStrip1.Padding = new Padding(7, 3, 0, 3);
+            menuStrip1.Size = new Size(1277, 30);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
             // agregarEmpleadoToolStripMenuItem
             // 
             agregarEmpleadoToolStripMenuItem.Name = "agregarEmpleadoToolStripMenuItem";
-            agregarEmpleadoToolStripMenuItem.Size = new Size(117, 20);
+            agregarEmpleadoToolStripMenuItem.Size = new Size(149, 24);
             agregarEmpleadoToolStripMenuItem.Text = "Agregar Empleado";
             agregarEmpleadoToolStripMenuItem.Click += AgregarEmpleadoToolStripMenuItem_Click;
             // 
             // agregarDepartamentoToolStripMenuItem
             // 
             agregarDepartamentoToolStripMenuItem.Name = "agregarDepartamentoToolStripMenuItem";
-            agregarDepartamentoToolStripMenuItem.Size = new Size(140, 20);
+            agregarDepartamentoToolStripMenuItem.Size = new Size(178, 24);
             agregarDepartamentoToolStripMenuItem.Text = "Agregar Departamento";
+            agregarDepartamentoToolStripMenuItem.Click += agregarDepartamentoToolStripMenuItem_Click;
             // 
             // consultarPorEmpleadoYDepartamentoAsociadosToolStripMenuItem
             // 
             consultarPorEmpleadoYDepartamentoAsociadosToolStripMenuItem.Name = "consultarPorEmpleadoYDepartamentoAsociadosToolStripMenuItem";
-            consultarPorEmpleadoYDepartamentoAsociadosToolStripMenuItem.Size = new Size(236, 20);
+            consultarPorEmpleadoYDepartamentoAsociadosToolStripMenuItem.Size = new Size(297, 24);
             consultarPorEmpleadoYDepartamentoAsociadosToolStripMenuItem.Text = "Consulta de Empleados y Departamentos";
+            consultarPorEmpleadoYDepartamentoAsociadosToolStripMenuItem.Click += consultarPorEmpleadoYDepartamentoAsociadosToolStripMenuItem_Click;
             // 
             // modificacarEmpleadoODepartamentoToolStripMenuItem
             // 
+            modificacarEmpleadoODepartamentoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { modificarEmpleadoToolStripMenuItem, modificarDepartamentoToolStripMenuItem });
             modificacarEmpleadoODepartamentoToolStripMenuItem.Name = "modificacarEmpleadoODepartamentoToolStripMenuItem";
-            modificacarEmpleadoODepartamentoToolStripMenuItem.Size = new Size(227, 20);
-            modificacarEmpleadoODepartamentoToolStripMenuItem.Text = "Modificacar Empleado o Departamento";
+            modificacarEmpleadoODepartamentoToolStripMenuItem.Size = new Size(273, 24);
+            modificacarEmpleadoODepartamentoToolStripMenuItem.Text = "Modificar Empleado o Departamento";
+            // 
+            // modificarEmpleadoToolStripMenuItem
+            // 
+            modificarEmpleadoToolStripMenuItem.Name = "modificarEmpleadoToolStripMenuItem";
+            modificarEmpleadoToolStripMenuItem.Size = new Size(257, 26);
+            modificarEmpleadoToolStripMenuItem.Text = "Modificar Empleado";
+            modificarEmpleadoToolStripMenuItem.Click += modificarEmpleadoToolStripMenuItem_Click;
+            // 
+            // modificarDepartamentoToolStripMenuItem
+            // 
+            modificarDepartamentoToolStripMenuItem.Name = "modificarDepartamentoToolStripMenuItem";
+            modificarDepartamentoToolStripMenuItem.Size = new Size(257, 26);
+            modificarDepartamentoToolStripMenuItem.Text = "Modificar Departamento";
+            modificarDepartamentoToolStripMenuItem.Click += modificarDepartamentoToolStripMenuItem_Click;
             // 
             // listarEmpleadoODepartamentoToolStripMenuItem
             // 
             listarEmpleadoODepartamentoToolStripMenuItem.Name = "listarEmpleadoODepartamentoToolStripMenuItem";
-            listarEmpleadoODepartamentoToolStripMenuItem.Size = new Size(192, 20);
+            listarEmpleadoODepartamentoToolStripMenuItem.Size = new Size(244, 24);
             listarEmpleadoODepartamentoToolStripMenuItem.Text = "Listar Empleado o Departamento";
             listarEmpleadoODepartamentoToolStripMenuItem.Click += ListarEmpleadoODepartamentoToolStripMenuItem_Click;
             // 
             // testConnection
             // 
-            testConnection.Location = new Point(12, 48);
+            testConnection.Location = new Point(14, 64);
+            testConnection.Margin = new Padding(3, 4, 3, 4);
             testConnection.Name = "testConnection";
-            testConnection.Size = new Size(178, 63);
+            testConnection.Size = new Size(203, 84);
             testConnection.TabIndex = 1;
             testConnection.Text = "Probar Conexión a la DB";
             testConnection.UseVisualStyleBackColor = true;
@@ -92,9 +114,10 @@
             // 
             // seedButton
             // 
-            seedButton.Location = new Point(12, 117);
+            seedButton.Location = new Point(14, 156);
+            seedButton.Margin = new Padding(3, 4, 3, 4);
             seedButton.Name = "seedButton";
-            seedButton.Size = new Size(178, 63);
+            seedButton.Size = new Size(203, 84);
             seedButton.TabIndex = 2;
             seedButton.Text = "Agregar datos de prueba";
             seedButton.UseVisualStyleBackColor = true;
@@ -102,13 +125,14 @@
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(966, 450);
+            ClientSize = new Size(1277, 600);
             Controls.Add(seedButton);
             Controls.Add(testConnection);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Form1";
             Text = "Form1";
             menuStrip1.ResumeLayout(false);
@@ -127,5 +151,7 @@
         private ToolStripMenuItem listarEmpleadoODepartamentoToolStripMenuItem;
         private Button testConnection;
         private Button seedButton;
+        private ToolStripMenuItem modificarEmpleadoToolStripMenuItem;
+        private ToolStripMenuItem modificarDepartamentoToolStripMenuItem;
     }
 }

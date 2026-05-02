@@ -53,5 +53,55 @@ namespace VictorJosafat_Trabajo3.Data
             adapter.Fill(dt);
             return dt;
         }
+        // Método para buscar empleado por RUT
+        public Empleado BuscarEmpleado(string rut)
+        {
+            using var conn = _dbHelper.ObtenerConexion();
+            conn.Open();
+
+            string query = "SELECT rut, nombre, apellido, sueldo, codigo_depto FROM Empleado WHERE rut = @rut";
+
+            MySqlCommand cmd = new(query, conn);
+            cmd.Parameters.AddWithValue("@rut", rut);
+
+            using var reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                return new Empleado
+                {
+                    Rut = reader["rut"].ToString(),
+                    Nombre = reader["nombre"].ToString(),
+                    Apellido = reader["apellido"].ToString(),
+                    Sueldo = Convert.ToDecimal(reader["sueldo"]),
+                    CodigoDepto = Convert.ToInt32(reader["codigo_depto"])
+                };
+            }
+
+            return null;
+        }
+
+        // Método para modificar un empleado existente
+        public void ModificarEmpleado(Empleado emp)
+        {
+            using var conn = _dbHelper.ObtenerConexion();
+            conn.Open();
+
+            string query = @"UPDATE Empleado 
+                     SET nombre = @nombre,
+                         apellido = @apellido,
+                         sueldo = @sueldo,
+                         codigo_depto = @codigo_depto
+                     WHERE rut = @rut";
+
+            MySqlCommand cmd = new(query, conn);
+            cmd.Parameters.AddWithValue("@rut", emp.Rut);
+            cmd.Parameters.AddWithValue("@nombre", emp.Nombre);
+            cmd.Parameters.AddWithValue("@apellido", emp.Apellido);
+            cmd.Parameters.AddWithValue("@sueldo", emp.Sueldo);
+            cmd.Parameters.AddWithValue("@codigo_depto", emp.CodigoDepto);
+
+            cmd.ExecuteNonQuery();
+        }
     }
 }
