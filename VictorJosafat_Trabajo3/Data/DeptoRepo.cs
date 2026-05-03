@@ -83,7 +83,7 @@ namespace VictorJosafat_Trabajo3.Data
                 lista.Add(new Departamento
                 {
                     Codigo = Convert.ToInt32(reader["codigo"]),
-                    NombreDepto = reader["nombre_depto"].ToString()
+                    NombreDepto = reader["nombre_depto"]?.ToString() ?? string.Empty
                 });
             }
 
@@ -108,7 +108,7 @@ namespace VictorJosafat_Trabajo3.Data
                 return new Departamento
                 {
                     Codigo = Convert.ToInt32(reader["codigo"]),
-                    NombreDepto = reader["nombre_depto"].ToString()
+                    NombreDepto = reader["nombre_depto"]?.ToString() ?? string.Empty
                 };
             }
 

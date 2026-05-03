@@ -40,7 +40,14 @@ namespace VictorJosafat_Trabajo3.Forms
 
             if (cmbDepto.SelectedValue is int codigoSeleccionado)
             {
+                // Validación de nombre y apellido para no permitir números
+                if (txtNombre.Text.Any(char.IsDigit) || txtApellido.Text.Any(char.IsDigit))
+                {
+                    MessageBox.Show("Los campos de nombre y apellido no pueden contener números.", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
+                // Validación de sueldo
                 if (!decimal.TryParse(txtSueldo.Text, out decimal sueldoValidado))
                 {
                     MessageBox.Show("Por favor, ingrese un sueldo válido (solo números).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -58,6 +65,15 @@ namespace VictorJosafat_Trabajo3.Forms
                 Departamento deptoSeleccionado = new Departamento { Codigo = codigoSeleccionado };
 
                 EmpleadoRepo empRepo = new EmpleadoRepo();
+
+                // Verificar si ya existe un empleado con el mismo RUT
+                if (empRepo.BuscarEmpleado(rutLimpio) != null)
+                {
+                    MessageBox.Show("Ya existe un empleado con ese RUT.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Agregar el nuevo empleado a la base de datos
                 empRepo.AgregarEmpleado(nuevoEmp, deptoSeleccionado);
 
                 MessageBox.Show("Empleado agregado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -84,6 +100,7 @@ namespace VictorJosafat_Trabajo3.Forms
         // Evento para permitir solo números, guiones y la letra 'k' en el campo de texto del RUT
         private void TxtRut_KeyPress(object sender, KeyPressEventArgs e)
         {
+
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
                 e.KeyChar != 'k' && e.KeyChar != 'K')
             {

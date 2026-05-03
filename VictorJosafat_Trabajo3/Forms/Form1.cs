@@ -13,8 +13,6 @@ namespace VictorJosafat_Trabajo3
             InitializeComponent();
         }
 
-
-
         private void AgregarEmpleadoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmAgregarEmp ventana = new();
@@ -80,6 +78,12 @@ namespace VictorJosafat_Trabajo3
         private void modificarDepartamentoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmModificarDepto ventana = new();
+            ventana.ShowDialog();
+        }
+
+        private void listaDeDepartamentosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmListDepto ventana = new();
             ventana.ShowDialog();
         }
     }

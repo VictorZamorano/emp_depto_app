@@ -59,10 +59,12 @@ namespace VictorJosafat_Trabajo3.Data
             using var conn = _dbHelper.ObtenerConexion();
             conn.Open();
 
-            string query = "SELECT rut, nombre, apellido, sueldo, codigo_depto FROM Empleado WHERE rut = @rut";
+            // Limpieza del RUT
+            string rutLimpio = rut.Replace(".", "").Replace("-", "").Trim();
+            string query = "SELECT rut, nombre, apellido, sueldo, codigo_depto FROM Empleado WHERE REPLACE(REPLACE(rut, '.', ''), '-', '') = @rut";
 
             MySqlCommand cmd = new(query, conn);
-            cmd.Parameters.AddWithValue("@rut", rut);
+            cmd.Parameters.AddWithValue("@rut", rutLimpio);
 
             using var reader = cmd.ExecuteReader();
 
@@ -70,14 +72,13 @@ namespace VictorJosafat_Trabajo3.Data
             {
                 return new Empleado
                 {
-                    Rut = reader["rut"].ToString(),
-                    Nombre = reader["nombre"].ToString(),
-                    Apellido = reader["apellido"].ToString(),
-                    Sueldo = Convert.ToDecimal(reader["sueldo"]),
-                    CodigoDepto = Convert.ToInt32(reader["codigo_depto"])
+                    Rut = reader["rut"]?.ToString() ?? string.Empty,
+                    Nombre = reader["nombre"]?.ToString() ?? string.Empty,
+                    Apellido = reader["apellido"]?.ToString() ?? string.Empty,
+                    Sueldo = reader["sueldo"] != DBNull.Value ? Convert.ToDecimal(reader["sueldo"]) : 0m,
+                    CodigoDepto = reader["codigo_depto"] != DBNull.Value ? Convert.ToInt32(reader["codigo_depto"]) : 0
                 };
             }
-
             return null;
         }
 

@@ -13,7 +13,7 @@ namespace VictorJosafat_Trabajo3.Forms
     {
         private readonly EmpleadoRepo _empRepo;
         private readonly DeptoRepo _deptoRepo;
-        private Empleado _empleadoActual;
+        private Empleado? _empleadoActual;
 
         public FrmModificarEmpleado()
         {
@@ -40,7 +40,8 @@ namespace VictorJosafat_Trabajo3.Forms
                 return;
             }
 
-            _empleadoActual = _empRepo.BuscarEmpleado(txtRut.Text.Trim());
+            // Buscamos (el repo ya se encarga de limpiar el parámetro)
+            _empleadoActual = _empRepo.BuscarEmpleado(txtRut.Text);
 
             if (_empleadoActual == null)
             {
@@ -48,52 +49,95 @@ namespace VictorJosafat_Trabajo3.Forms
                 return;
             }
 
-            // Cargar datos en los controles
+            // Al asignar al TextBox, el RUT ya vendrá con puntos gracias al modelo
+            txtRut.Text = _empleadoActual.Rut;
             txtNombre.Text = _empleadoActual.Nombre;
             txtApellido.Text = _empleadoActual.Apellido;
-            txtSueldo.Text = _empleadoActual.Sueldo.ToString();
+            txtSueldo.Text = _empleadoActual.Sueldo.ToString("N0"); // Formato con miles sin decimales
 
-            // Seleccionar departamento en ComboBox
             cmbDepto.SelectedValue = _empleadoActual.CodigoDepto;
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (_empleadoActual == null)
+            if (_empleadoActual == null) return;
+
+            // Validación de nombre y apellido para no permitir números
+            if (txtNombre.Text.Any(char.IsDigit) || txtApellido.Text.Any(char.IsDigit))
             {
-                MessageBox.Show("Debe buscar un empleado primero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Los campos de nombre y apellido no pueden contener números.", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Validaciones
-            if (string.IsNullOrWhiteSpace(txtNombre.Text) ||
-                string.IsNullOrWhiteSpace(txtApellido.Text) ||
-                string.IsNullOrWhiteSpace(txtSueldo.Text))
-            {
-                MessageBox.Show("Todos los campos deben estar completos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
+            // Validación de sueldo
             if (!decimal.TryParse(txtSueldo.Text, out decimal sueldo))
             {
-                MessageBox.Show("El sueldo debe ser numérico.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Sueldo inválido.");
                 return;
             }
 
-            // Actualizar datos
-            _empleadoActual.Nombre = txtNombre.Text.Trim();
-            _empleadoActual.Apellido = txtApellido.Text.Trim();
+            // Actualizamos el objeto con los nuevos valores ingresados por el usuario
+            _empleadoActual.Nombre = txtNombre.Text;
+            _empleadoActual.Apellido = txtApellido.Text;
             _empleadoActual.Sueldo = sueldo;
-            _empleadoActual.CodigoDepto = (int)cmbDepto.SelectedValue;
+
+            if (cmbDepto.SelectedValue is int idDepto)
+            {
+                _empleadoActual.CodigoDepto = idDepto;
+            }
 
             try
             {
                 _empRepo.ModificarEmpleado(_empleadoActual);
-                MessageBox.Show("Empleado modificado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Cambios guardados con éxito.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al modificar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void txtRut_TextChanged(object sender, EventArgs e)
+        {
+            string soloNumeros = txtRut.Text.Replace(".", "").Replace("-", "").Replace(" ", "");
+
+            // Si tiene menos de 8 caracteres (un RUT chileno válido tiene entre 8 y 9), se pone rojo
+            if (soloNumeros.Length < 8)
+            {
+                txtRut.ForeColor = Color.Red;
+            }
+            else
+            {
+                // Vuelve al color por defecto del sistema (negro o el que tengas configurado)
+                txtRut.ForeColor = SystemColors.WindowText;
+            }
+        }
+
+        private void txtRut_Enter(object sender, EventArgs e)
+        {
+            // Limpiamos visualmente para facilitar la edición o búsqueda manual
+            txtRut.Text = txtRut.Text.Replace(".", "").Replace("-", "");
+            txtRut.SelectAll();
+        }
+
+        // 2. KeyPress: Bloquea cualquier tecla que no sea número, letra 'K' o teclas de control
+        private void txtRut_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+                char.ToLower(e.KeyChar) != 'k')
+            {
+                e.Handled = true;
+            }
+        }
+
+        // 3. Leave: Al salir del campo, el modelo 'Empleado' se encargará de formatear
+        private void txtRut_Leave(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtRut.Text))
+            {
+                _empleadoActual ??= new Empleado();
+                _empleadoActual.Rut = txtRut.Text;
+                txtRut.Text = _empleadoActual.Rut;
             }
         }
     }

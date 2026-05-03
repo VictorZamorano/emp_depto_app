@@ -8,23 +8,23 @@ namespace VictorJosafat_Trabajo3.Models
 {
     public class Empleado
     {
-        private string _rut;
-        private string _nombre;
-        private string _apellido;
+        private string _rut = string.Empty;
+        private string _nombre = string.Empty;
+        private string _apellido = string.Empty;
 
         public string Rut {
             get => _rut;
-            set => _rut = RutFormateador.FormatearRut(value);
+            set => _rut = RutFormateador.FormatearRut(value ?? string.Empty);
         }
         public string Nombre
         {
             get => _nombre;
-            set => _nombre = Formateador.Capitalizar(value);
+            set => _nombre = Formateador.Capitalizar(value ?? string.Empty);
         }
         public string Apellido
         {
             get => _apellido;
-            set => _apellido = Formateador.Capitalizar(value);
+            set => _apellido = Formateador.Capitalizar(value ?? string.Empty);
         }   
         public decimal Sueldo { get; set; }
         public int CodigoDepto { get; set; }
